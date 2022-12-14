@@ -1,10 +1,14 @@
 import {
+  Body,
   Controller,
   Get,
+  Post,
   Query,
+  Redirect,
   Render,
 } from '@nestjs/common';
 import { AppService } from './app.service';
+import { CatDto } from './cat.tdo';
 import db from './db';
 
 @Controller()
@@ -33,10 +37,21 @@ export class AppController {
           macskak: rows
         };
     }
-}
+  }
   @Get('cats/new')
   @Render('new')
   newCats(){
     return {};
+  }
+  @Post('cats/new')
+  @Redirect()
+  async newCat(@Body() macska: CatDto) {
+    const [result]: any = await db.execute(
+      'INSERT INTO macskak (szem_szin, suly) VALUES (?, ?)',
+      [macska.eye, macska.wgt],
+    );
+    return {
+      url: '/',
+    };
   }
 }
