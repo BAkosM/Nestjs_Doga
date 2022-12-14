@@ -21,4 +21,9 @@ export class AppController {
       macskak: rows,
     };
   }
+  @Get('cats/new')
+  @Render('new')
+  newCats(){
+    return {};
+  }
 }
