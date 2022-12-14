@@ -12,7 +12,13 @@ export class AppController {
 
   @Get()
   @Render('index')
-  index() {
-    return { message: 'Welcome to the homepage' };
+  async listCats() {
+    const [rows] = await db.execute(
+      'SELECT szem_szin, suly FROM macskak ORDER BY suly DESC'
+    );
+
+    return {
+      macskak: rows,
+    };
   }
 }
